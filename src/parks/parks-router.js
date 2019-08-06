@@ -5,7 +5,6 @@ const parksRouter = express.Router()
 
 parksRouter
     .route('/')
-    .all(checkParkExists)
     .get((req, res, next) => {
         const {search = ''} = req.query;
 
