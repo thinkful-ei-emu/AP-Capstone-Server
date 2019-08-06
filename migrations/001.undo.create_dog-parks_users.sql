@@ -1,1 +1,1 @@
-DROP TABLE IF EXISTS Dog-Parks_users;
+DROP TABLE IF EXISTS dog_parks_users;
