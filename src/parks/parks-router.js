@@ -5,6 +5,7 @@ const parksRouter = express.Router()
 
 parksRouter
     .route('/')
+    .all(checkParkExists)
     .get((req, res, next) => {
         const {search = ''} = req.query;
 
@@ -45,8 +46,45 @@ parksRouter
 
 parksRouter
     .route('/:park_id')
+    .all(checkParkExists)
     .get((req, res, next) =>{
 
+        ParksService.getById(
+            req.app.get('db'),
+            req.params.park_id,
+        )
+            .then(park=>{
+              return res.json({
+                id: park.id,
+                park_name: park.park_name, 
+                park_city: park.park_city,
+                park_address: park.park_address,
+                park_hours: park.park_hours,
+                park_rating: park.park_rating
+               }) 
+            })
+            .catch(next)
+
     })
+
+
+async function checkParkExists(req, res, next) {
+    try {
+        const park = await ParksService.getById(
+        req.app.get('db'),
+        req.params.park_id,
+        )
+    
+        if (!park)
+        return res.status(404).json({
+            error: `Park does not exist`
+        })
+    
+        res.park = park
+        next()
+    } catch (error) {
+        next(error)
+    }
+    }
 
 module.exports = parksRouter
