@@ -14,7 +14,7 @@ parksRouter
             return city.toLowerCase()
         })
 
-        if(!caseIns.includes(search)){
+        if(!caseIns.includes(search) && !validCities.includes(search)){
             return res.status(400).json({
                 error: 'Enter a Valid City'
             })
