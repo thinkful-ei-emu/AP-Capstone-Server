@@ -10,13 +10,11 @@ favoritesRouter
     .route('/')
     .all(requireAuth)
     .get((req, res, next) => {
-        FavoritesService.getAllFavorites(
-            req.app.get('db')
+        FavoritesService.getUserFavorites(
+            req.app.get('db'),
+            req.user.id
         )
         .then(favorites => {
-
-            //let filtered = favorites.filter(where payload.user_id === favorite.user_id),
-            //then map through that filtered list maybe
     
             let favoritesList = favorites.map(favorite=>{
                  return {
@@ -35,8 +33,8 @@ favoritesRouter
         .catch(next)
     })
     .post(jsonParser, (req, res, next)=>{
-        const {park_id} = req.body
-        const newFavorite = {park_id}
+        const {user_id, park_id} = req.body
+        const newFavorite = {user_id, park_id}
 
         for (const [key, value] of Object.entries(newFavorite))
         if (value == null)
@@ -57,36 +55,6 @@ favoritesRouter
         .catch(next)
     })
 
-
-favoritesRouter
-    .route('/:userId')
-    .all(requireAuth)
-    .get((req, res, next)=>{
-
-        FavoritesService.getUserFavorites(
-            req.app.get('db'),
-            req.params.userId
-        )
-        .then(favorites => {
-    
-            let favoritesList = favorites.map(favorite=>{
-                 return {
-                     user_id: favorite.user_id,
-                     user_name: favorite.user_name,
-                     park_id: favorite.park_id,
-                     park_name: favorite.park_name,
-                     park_address: favorite.park_address,
-                     park_city: favorite.park_city,
-                     park_hours: favorite.park_hours,
-                     park_rating: favorite.park_rating,
-                 }
-             })
-
-             res.json(favoritesList)
-        })
-        .catch(next)
-    })
-    
 favoritesRouter
     .route('/:parkId')
     .delete((req, res, next) =>{

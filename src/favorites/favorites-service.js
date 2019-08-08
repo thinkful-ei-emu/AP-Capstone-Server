@@ -32,6 +32,7 @@ const FavoritesService = {
         .from('favorites')
         .innerJoin('dog_parks_users', 'favorites.user_id', 'dog_parks_users.id')
         .innerJoin('dog_parks_list', 'favorites.park_id', 'dog_parks_list.id')
+        .where()
     },
 
     addNewFavorite(db, newFavorite){
@@ -47,6 +48,9 @@ const FavoritesService = {
             .from('favorites')
             .where('favorites.park_id', park_id)
             .delete()
+
+            //logic delete from favorites 
+            //where favorites.park_id = 2, works in dbeaver
     }
         
 }
