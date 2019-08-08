@@ -1,8 +1,10 @@
 const express = require('express')
 const FavoritesService = require('./favorites-service')
 const {requireAuth} = require('../middleware/jwt-auth')
+const path = require('path')
 
 const favoritesRouter = express.Router()
+const jsonParser = express.json()
 
 favoritesRouter
     .route('/')
@@ -12,6 +14,9 @@ favoritesRouter
             req.app.get('db')
         )
         .then(favorites => {
+
+            //let filtered = favorites.filter(where payload.user_id === favorite.user_id),
+            //then map through that filtered list maybe
     
             let favoritesList = favorites.map(favorite=>{
                  return {
@@ -26,6 +31,28 @@ favoritesRouter
              })
 
              res.json(favoritesList)
+        })
+        .catch(next)
+    })
+    .post(jsonParser, (req, res, next)=>{
+        const {user_id, park_id} = req.body
+        const newFavorite = {user_id, park_id}
+
+        for (const [key, value] of Object.entries(newFavorite))
+        if (value == null)
+          return res.status(400).json({
+            error: `Missing '${key}' in request body`
+          }) 
+
+        FavoritesService.addNewFavorite(
+            req.app.get('db'),
+            newFavorite
+        )
+        .then(favorite => {
+            res
+                .status(201)
+                .location(path.posix.join(req.originalUrl, `/${favorite.id}`))
+                .json(favorite)
         })
         .catch(next)
     })

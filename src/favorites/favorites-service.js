@@ -32,6 +32,14 @@ const FavoritesService = {
         .from('favorites')
         .innerJoin('dog_parks_users', 'favorites.user_id', 'dog_parks_users.id')
         .innerJoin('dog_parks_list', 'favorites.park_id', 'dog_parks_list.id')
+    },
+
+    addNewFavorite(db, newFavorite){
+        return db
+            .insert(newFavorite)
+            .into('favorites')
+            .returning('*')
+            .then(([favorite]) => favorite)
     }
         
 }
