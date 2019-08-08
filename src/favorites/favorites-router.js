@@ -1,11 +1,12 @@
 const express = require('express')
 const FavoritesService = require('./favorites-service')
-//const {requireAuth} = require('../middleware/jwt-auth')
+const {requireAuth} = require('../middleware/jwt-auth')
 
 const favoritesRouter = express.Router()
 
 favoritesRouter
     .route('/')
+    .all(requireAuth)
     .get((req, res, next) => {
         FavoritesService.getAllFavorites(
             req.app.get('db')
@@ -33,7 +34,7 @@ favoritesRouter
 
 favoritesRouter
     .route('/:userId')
-    //.all(requireAuth)
+    .all(requireAuth)
     .get((req, res, next)=>{
 
         FavoritesService.getUserFavorites(
