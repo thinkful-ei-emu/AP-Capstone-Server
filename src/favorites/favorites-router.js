@@ -33,8 +33,8 @@ favoritesRouter
         .catch(next)
     })
     .post(jsonParser, (req, res, next)=>{
-        const {user_id, park_id} = req.body
-        const newFavorite = {user_id, park_id}
+        const {park_id} = req.body
+        const newFavorite = {user_id: req.user.id, park_id}
 
         for (const [key, value] of Object.entries(newFavorite))
         if (value == null)
