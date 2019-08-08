@@ -54,22 +54,29 @@ favoritesRouter
         })
         .catch(next)
     })
-
-favoritesRouter
-    .route('/:parkId')
     .delete((req, res, next) =>{
 
-    FavoritesService.removeFavorite(
-        req.app.get('db'),
-        req.params.parkId
-    )
-    .then(numRowsAffected =>{
-        res.status(204).end()
-    })
-    .catch(next)
+        const {park_id} = req.body
+        const removedFavorite = {user_id: req.user.id, park_id}
+
+        FavoritesService.removeFavorite(
+            req.app.get('db'),
+            removedFavorite
+        )
+            .then(numRowsAffected =>{
+                res.status(204).end()
+            })
+            .catch(next)
     })
 
-
+    // FavoritesService.removeFavorite(
+    //     req.app.get('db'),
+    //     req.params.parkId
+    // )
+    // .then(numRowsAffected =>{
+    //     res.status(204).end()
+    // })
+    
     
   
 
