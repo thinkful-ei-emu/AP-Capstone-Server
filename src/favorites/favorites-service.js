@@ -40,6 +40,13 @@ const FavoritesService = {
             .into('favorites')
             .returning('*')
             .then(([favorite]) => favorite)
+    },
+
+    removeFavorite(db, park_id){
+        return db
+            .from('favorites')
+            .where('favorites.park_id', park_id)
+            .delete()
     }
         
 }

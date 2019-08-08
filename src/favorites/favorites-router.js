@@ -35,8 +35,8 @@ favoritesRouter
         .catch(next)
     })
     .post(jsonParser, (req, res, next)=>{
-        const {user_id, park_id} = req.body
-        const newFavorite = {user_id, park_id}
+        const {park_id} = req.body
+        const newFavorite = {park_id}
 
         for (const [key, value] of Object.entries(newFavorite))
         if (value == null)
@@ -56,7 +56,6 @@ favoritesRouter
         })
         .catch(next)
     })
-    
 
 
 favoritesRouter
@@ -87,6 +86,18 @@ favoritesRouter
         })
         .catch(next)
     })
+
+// .delete((req, res, next) =>{
+
+//     FavoritesService.removeFavorite(
+//         req.app.get('db'),
+//         req.params.parkId
+//     )
+//     .then(numRowsAffected =>{
+//         res.status(204).end()
+//     })
+//     .catch(next)
+// })
     
   
 
