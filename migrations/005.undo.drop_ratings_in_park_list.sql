@@ -1,0 +1,1 @@
+ALTER TABLE dog_parks_list ADD park_rating INTEGER NOT NULL

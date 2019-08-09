@@ -1,0 +1,4 @@
+TRUNCATE
+    reviews
+    RESTART IDENTITY CASCADE;
+    
