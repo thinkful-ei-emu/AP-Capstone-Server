@@ -10,12 +10,23 @@ const FavoritesService = {
             'dog_parks_list.park_address',
             'dog_parks_list.park_city',
             'dog_parks_list.park_hours',
-            'dog_parks_list.park_rating'
+            db.raw(
+                `AVG(reviews.rating) AS park_rating`
+              ),
             )
         .from('favorites')
         .innerJoin('dog_parks_users', 'favorites.user_id', 'dog_parks_users.id')
         .innerJoin('dog_parks_list', 'favorites.park_id', 'dog_parks_list.id')
+        .innerJoin('reviews', 'dog_parks_list.id', 'reviews.park_id')
         .where('favorites.user_id', userId)
+        .groupBy('favorites.user_id', 
+                'dog_parks_users.user_name',
+                 'favorites.park_id',
+                 'dog_parks_list.park_name',
+                 'dog_parks_list.park_address',
+                 'dog_parks_list.park_city',
+                'dog_parks_list.park_hours')
+
     },
 
     addNewFavorite(db, newFavorite){
