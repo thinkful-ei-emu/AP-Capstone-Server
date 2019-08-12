@@ -30,8 +30,6 @@ reviewsRouter
     .catch(next)
 })
 
-reviewsRouter
-.route('/addReview')
 .post(requireAuth, jsonParser, (req, res, next) =>{
     const {park_id, rating, text} = req.body
     const newReview = {park_id, rating, text}

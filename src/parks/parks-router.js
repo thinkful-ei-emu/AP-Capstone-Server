@@ -6,7 +6,7 @@ const parksRouter = express.Router()
 parksRouter
     .route('/')
     .get((req, res, next) => {
-        // const {search = ''} = req.query;
+        const {search = ''} = req.query;
 
         // const validCities = ['Virginia Beach', "Norfolk", "Chesapeake", "Hampton", "Newport News", "Suffolk"]
 
@@ -20,9 +20,9 @@ parksRouter
         //     })
         // }
 
-        ParksService.getAllParks(
+        ParksService.searchByCityName(
             req.app.get('db'),
-            // search,
+            search,
         )
             .then(parks => {
                let results = parks.map(park=>{
