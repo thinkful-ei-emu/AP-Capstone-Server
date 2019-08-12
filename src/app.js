@@ -8,6 +8,7 @@ const usersRouter = require('./users/users-router')
 const authRouter = require('./auth/auth-router')
 const parksRouter = require('./parks/parks-router')
 const favoritesRouter = require('./favorites/favorites-router')
+const reviewsRouter = require('./reviews/reviews-router')
 
 const app = express()
 
@@ -23,6 +24,7 @@ app.use('/api/users', usersRouter)
 app.use('/api/auth', authRouter)
 app.use('/api/parks', parksRouter)
 app.use('/api/favorites', favoritesRouter)
+app.use('/api/reviews', reviewsRouter)
 
 app.use(function errorHandler(error, req, res, next){
     let response
