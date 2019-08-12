@@ -37,7 +37,20 @@ const ParksService = {
     .from("dog_parks_list")
     .where('id', park_id)
     .first()
+  },
+
+  getReviewsForPark(db, park_id){
+    return db
+    .select(
+      'reviews.id',
+      'reviews.text',
+      'reviews.rating',
+      'reviews.date_created',
+    )
+    .from('reviews')
+    .where('reviews.park_id', park_id)
   }
+  
 
 };
 
