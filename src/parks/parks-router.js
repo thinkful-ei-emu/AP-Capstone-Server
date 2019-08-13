@@ -8,18 +8,6 @@ parksRouter
     .get((req, res, next) => {
         const {search = ''} = req.query;
 
-        // const validCities = ['Virginia Beach', "Norfolk", "Chesapeake", "Hampton", "Newport News", "Suffolk"]
-
-        // let caseIns = validCities.map(city => {
-        //     return city.toLowerCase()
-        // })
-
-        // if(!caseIns.includes(search) && !validCities.includes(search)){
-        //     return res.status(400).json({
-        //         error: 'Enter a Valid City'
-        //     })
-        // }
-
         ParksService.searchByCityName(
             req.app.get('db'),
             search,
