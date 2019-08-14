@@ -2,7 +2,7 @@ const knex = require("knex");
 const app = require("../src/app");
 const helpers = require("./test-helpers");
 
-describe("Favorites Endpoints", function() {
+describe.only("Favorites Endpoints", function() {
   let db;
 
   const {
@@ -26,32 +26,25 @@ describe("Favorites Endpoints", function() {
 
   afterEach("cleanup", () => helpers.cleanTables(db));
 
-  //   describe(`GET /api/favorites`, ()=>{
-  //     beforeEach('insert things', () =>
-  //         helpers.seedParksTables(
-  //             db,
-  //             testUsers,
-  //             testParks,
-  //             testReviews,
-  //             testFavorites
-  //         )
-  //     )
+  describe(`GET /api/favorites`, () => {
+    beforeEach("insert things", () =>
+      helpers.seedParksTables(
+        db,
+        testUsers,
+        testParks,
+        testReviews,
+        testFavorites
+      )
+    );
 
-  //     it(`Gets all favorites, responding with 200 and all favorites`, ()=>{
+    it(`Gets all favorites, responding with 200 and all favorites`, () => {
 
-  //         const expectedFavorites = testFavorites.map(favorite=>{
-  //             return {
-  //                 user_id: favorite.user_id,
-  //                 park_id: favorite.park_id,
-  //             }
-  //         })
-
-  //         return supertest(app)
-  //             .get('/api/favorites')
-  //             .set('Authorization', helpers.makeAuthHeader(testUsers[0]))
-  //             .expect(200, expectedFavorites)
-  //     })
-  //   })
+      return supertest(app)
+        .get("/api/favorites")
+        .set("Authorization", helpers.makeAuthHeader(testUsers[0]))
+        .expect(200);
+    });
+  });
 
   describe(`POST /api/favorites`, () => {
     beforeEach("insert things", () =>
@@ -99,7 +92,7 @@ describe("Favorites Endpoints", function() {
     });
   });
 
-  describe.only(`DELETE /api/favorites`, () => {
+  describe(`DELETE /api/favorites`, () => {
     beforeEach("insert things", () =>
       helpers.seedParksTables(
         db,
@@ -108,16 +101,15 @@ describe("Favorites Endpoints", function() {
         testReviews,
         testFavorites
       )
-    )
+    );
 
-    it(`Deletes favorite and responds with 204 no content`, ()=>{
-       
-        const parkId = testFavorites[0].park_id
+    it(`Deletes favorite and responds with 204 no content`, () => {
+      const parkId = testFavorites[0].park_id;
 
-        return supertest(app)
-            .delete(`/api/favorites/${parkId}`)
-            .set("Authorization", helpers.makeAuthHeader(testUsers[0]))
-            .expect(204)
-    })
+      return supertest(app)
+        .delete(`/api/favorites/${parkId}`)
+        .set("Authorization", helpers.makeAuthHeader(testUsers[0]))
+        .expect(204);
+    });
   });
 });
