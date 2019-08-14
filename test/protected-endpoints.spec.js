@@ -44,11 +44,11 @@ describe.only(`Protected endpoints`, () => {
         method: supertest(app).get,
     },
 
-    // {
-    //     name: "POST /api/favorites",
-    //     path: "/api/favorites",
-    //     method: supertest(app).post,
-    // }
+    {
+        name: "POST /api/favorites",
+        path: "/api/favorites",
+        method: supertest(app).post,
+    }
 
   ];
 

@@ -144,8 +144,6 @@ function seedParksTables(db, users, parks, reviews=[], favorites=[]) {
         )
       }
     })
-
-    // PRIMARY KEY(user_id, park_id),
      
   }
 
