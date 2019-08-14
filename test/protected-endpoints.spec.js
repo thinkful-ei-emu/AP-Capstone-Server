@@ -48,6 +48,12 @@ describe.only(`Protected endpoints`, () => {
         name: "POST /api/favorites",
         path: "/api/favorites",
         method: supertest(app).post,
+    }, 
+
+    {
+        name: "DELETE /api/favorites/:parkId",
+        path: "/api/favorites/1",
+        method: supertest(app).delete,
     }
 
   ];

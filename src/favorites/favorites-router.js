@@ -58,6 +58,7 @@ favoritesRouter
     
 favoritesRouter
     .route('/:parkId')
+    .all(requireAuth)
     .delete((req, res, next) =>{
         
     FavoritesService.removeFavorite(
