@@ -19,13 +19,13 @@ reviewsRouter
                 id: review.id,
                 text: review.text,
                 rating: review.rating,
-                date_created: review.date_created,
+                date_created: new Date(review.date_created).toLocaleDateString(),
                 park_id: review.park_id
             }
         
         })
 
-        res.json(results)
+        res.status(200).json(results)
     })
     .catch(next)
 })
