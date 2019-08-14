@@ -42,6 +42,14 @@ describe.only('Parks Endpoints', function() {
             .get('/api/parks')
             .expect(200)
       })
+
+      it('Get parks based on query with 200 response', ()=>{
+          const query = "virginia beach"
+
+          return supertest(app)
+            .get(`/api/parks?search=${query}`)
+            .expect(200)
+      })
   })
 
   describe(`GET /api/parks/:parkId`, ()=>{
