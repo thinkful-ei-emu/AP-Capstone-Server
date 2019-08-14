@@ -72,11 +72,13 @@ function makeReviewsArray(users, parks) {
 function makeFavoritesArray(users, parks){
     return[
         {
+            id: 1,
             park_id: parks[0].id,
             user_id: users[0].id,
         },
 
         {
+            id: 2,
             park_id: parks[1].id,
             user_id: users[1].id,
         }
@@ -119,7 +121,7 @@ function seedUsers(db, users){
       )
   }
 
-function seedParksTables(db, users, parks, reviews=[]) {
+function seedParksTables(db, users, parks, reviews=[], favorites=[]) {
     return db.transaction(async trx =>{
       await seedUsers(trx, users)
       await trx.into('dog_parks_list').insert(parks)
@@ -134,7 +136,16 @@ function seedParksTables(db, users, parks, reviews=[]) {
           [reviews[reviews.length -1].id]
         )
       }
+      if(favorites.length){
+        await trx.into('favorites').insert(favorites)
+        await trx.raw(
+          `SELECT setval('favorites_id_seq', ?)`,
+          [favorites[favorites.length -1].id]
+        )
+      }
     })
+
+    // PRIMARY KEY(user_id, park_id),
      
   }
 

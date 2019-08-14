@@ -17,7 +17,7 @@ const UsersService = {
         }
 
         if(password.startsWith(' ') || password.endsWith(' ')){
-            return 'Password must not start or end with a empty spaces'
+            return 'Password must not start or end with empty spaces'
         }
 
         if(!REGEX_UPPER_LOWER_NUMBER_SPECIAL.test(password)){
