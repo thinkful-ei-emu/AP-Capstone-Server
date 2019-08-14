@@ -79,7 +79,7 @@ function makeFavoritesArray(users, parks){
 
         {
             id: 2,
-            park_id: parks[1].id,
+            park_id: parks[0].id,
             user_id: users[1].id,
         }
     ]

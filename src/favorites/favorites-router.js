@@ -28,7 +28,7 @@ favoritesRouter
                  }
              })
 
-             res.json(favoritesList)
+             res.status(200).json(favoritesList)
         })
         .catch(next)
     })
