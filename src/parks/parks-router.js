@@ -21,12 +21,10 @@ parksRouter
                         park_address: park.park_address,
                         park_hours: park.park_hours,
                         park_rating: park.park_rating,
-                        rating: park.rating,
-                        text: park.text
                     }
                 })
 
-                res.json(results)
+                res.status(200).json(results)
             })  
         
             .catch(next)
@@ -43,7 +41,7 @@ parksRouter
             req.params.park_id,
         )
             .then(park=>{
-              return res.json({
+              return res.status(200).json({
                 id: park.id,
                 park_name: park.park_name, 
                 park_city: park.park_city,
@@ -54,30 +52,6 @@ parksRouter
             })
             .catch(next)
 
-    })
-
-parksRouter
-    .route('/:park_id/reviews/')
-    .all(checkParkExists)
-    .get((req, res, next)=>{
-        ParksService.getReviewsForPark(
-            req.app.get('db'),
-            req.params.park_id
-        )
-        .then(reviews=>{
-            let results = reviews.map(review=>{
-                return {
-                    id: review.id,
-                    text: review.text,
-                    rating: review.rating,
-                    date_created: review.date_created
-                }
-            
-            })
-
-            res.json(results)
-        })
-        .catch(next)
     })
 
 
