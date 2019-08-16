@@ -1,26 +1,17 @@
-# Express Boilerplate!
+## API Link: 
 
-This is a boilerplate project used for starting new projects!
+https://blooming-reef-25668.herokuapp.com/
 
-## Set up
+## API Documentation: 
 
-Complete the following steps to start a new project (NEW-PROJECT-NAME):
+This API allows requests to the following endpoints:
 
-1. Clone this repository to your local machine `git clone BOILERPLATE-URL NEW-PROJECTS-NAME`
-2. `cd` into the cloned repository
-3. Make a fresh start of the git history for this project with `rm -rf .git && git init`
-4. Install the node dependencies `npm install`
-5. Move the example Environment file to `.env` that will be ignored by git and read by the express server `mv example.env .env`
-6. Edit the contents of the `package.json` to use NEW-PROJECT-NAME instead of `"name": "express-boilerplate",`
+/api/users: This endpoint allows for user registration. You can make a POST request to this endpoing with a request body that includes: password, user_name, and full_name. 
 
-## Scripts
+/api/auth: This endpoint allows for user login. You can make a POST request /api/auth/login. The request body must include user_name and password. 
 
-Start the application `npm start`
+/api/parks: The /api/parks endpoint allows for getting back a response body that include park id, park_name, park_city, park_address, park_hours, and park_rating. You can also make a GET request to /api/parks/:park_id, which will return only a single park at that specific id. 
 
-Start nodemon for the application `npm run dev`
+/api/favorites: A GET request and POST request can be made to /api/favorites with correct authorization. With the GET request, you will receive a response body that includes user_id, park_id, park_name, park_address, park_city, park_hours, and park_rating. The size of the response body depends on the number of favorites stored to the user's id. A POST request can also be made to /api/favorites. The request body must include the park_id as the user_id will come from authentication. A DELETE request can also be made to /api/favorites/:parkId. This will take the params of the URL and delete the specified park. 
 
-Run the tests `npm test`
-
-## Deploying
-
-When your new project is ready for deployment, add a new Heroku application with `heroku create`. This will make a new git remote called "heroku" and you can then `npm run deploy` which will push to this remote's master branch.
+/api/reviews: Get and post requests can be made to /api/reviews. A get request will respond with a response body that includes id, text, rating, date_created, and park_id. A post request can be made to /api/reviews as well. The request body must include park_id, rating, and text. 
