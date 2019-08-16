@@ -21,4 +21,4 @@ This API allows requests to the following endpoints:
 
 ## Stack:
 
-Node, Express, PostgreSQL, Knex, Bcrypt, and JWT. 
+Node, Express, PostgreSQL, Knex, Bcrypt, JWT, and Mocha. 
