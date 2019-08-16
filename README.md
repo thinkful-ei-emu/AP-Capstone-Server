@@ -2,6 +2,8 @@
 
 https://blooming-reef-25668.herokuapp.com/
 
+This server is not meant to be re-used by other developers as it requires controlled data in terms of the park list.
+
 ## API Documentation: 
 
 This API allows requests to the following endpoints:
