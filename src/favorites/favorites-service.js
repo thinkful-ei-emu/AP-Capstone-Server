@@ -42,9 +42,6 @@ const FavoritesService = {
             .from('favorites')
             .where('favorites.park_id', parkId)
             .delete()
-
-            //logic delete from favorites 
-            //where favorites.park_id = 2, works in dbeaver
     }
         
 }
