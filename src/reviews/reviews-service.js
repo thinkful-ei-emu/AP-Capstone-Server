@@ -1,24 +1,27 @@
 const ReviewsService = {
 
-    getAllReviews(db){
-        return db
-        .select(
-          'reviews.id',
-          'reviews.text',
-          'reviews.rating',
-          'reviews.date_created',
-          'reviews.park_id'
-        )
-        .from('reviews')
-    },
+  //get all reviews
+  getAllReviews(db){
+    return db
+      .select(
+        'reviews.id',
+        'reviews.text',
+        'reviews.rating',
+        'reviews.date_created',
+        'reviews.park_id',
+        'reviews.user_id'
+      )
+      .from('reviews');
+  },
 
-    insertReview(db, newReview){
-      return db
+  //insert review
+  insertReview(db, newReview){
+    return db
       .insert(newReview)
       .into('reviews')
       .returning('*')
-      .then(([review])=>review)
-    }
-}
+      .then(([review])=>review);
+  }
+};
 
-module.exports = ReviewsService
+module.exports = ReviewsService;

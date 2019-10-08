@@ -1,78 +1,98 @@
-const express = require('express')
-const FavoritesService = require('./favorites-service')
-const {requireAuth} = require('../middleware/jwt-auth')
-const path = require('path')
+const express = require('express');
+const FavoritesService = require('./favorites-service');
+const {requireAuth} = require('../middleware/jwt-auth');
+const path = require('path');
 
-const favoritesRouter = express.Router()
-const jsonParser = express.json()
+const favoritesRouter = express.Router();
+const jsonParser = express.json();
 
 favoritesRouter
-    .route('/')
-    .all(requireAuth)
-    .get((req, res, next) => {
-        FavoritesService.getUserFavorites(
-            req.app.get('db'),
-            req.user.id
-        )
-        .then(favorites => {
+  .route('/')
+  .all(requireAuth)
+  //get list of favorites associated with user
+  .get(async(req, res, next) => {
+    try{
+      let favorites = await FavoritesService.getUserFavorites(
+        req.app.get('db'),
+        req.user.id
+      );
+
+      return res.status(200).json(favorites);
+    }
+    catch(e){
+      next();
+    }
     
-            let favoritesList = favorites.map(favorite=>{
-                 return {
-                     user_id: favorite.user_id,
-                     park_id: favorite.park_id,
-                     park_name: favorite.park_name,
-                     park_address: favorite.park_address,
-                     park_city: favorite.park_city,
-                     park_hours: favorite.park_hours,
-                     park_rating: favorite.park_rating,
-                 }
-             })
+  })
 
-             res.status(200).json(favoritesList)
-        })
-        .catch(next)
-    })
-    .post(jsonParser, (req, res, next)=>{
-        const {park_id} = req.body
-        const newFavorite = {user_id: req.user.id, park_id}
-
-        for (const [key, value] of Object.entries(newFavorite))
+  //add new favorite
+  .post(jsonParser, async (req, res, next)=>{
+    try{
+      const {park_id} = req.body;
+      const newFavorite = {user_id: req.user.id, park_id};
+  
+      for (const [key, value] of Object.entries(newFavorite))
         if (value == null)
           return res.status(400).json({
             error: `Missing '${key}' in request body`
-          }) 
+          }); 
 
-        FavoritesService.addNewFavorite(
-            req.app.get('db'),
-            newFavorite
-        )
+      let allFaves = await FavoritesService.getUserFavorites(
+        req.app.get('db'),
+        req.user.id
+      );
+
+      //check if park is already in the users favorites
+      for(let i = 0; i < allFaves.length; i++){
+        if(allFaves[i].park_id === newFavorite.park_id){
+          return res.status(400).json({
+            error: 'This park is already in your favorites'
+          });
+        }
+      }
+  
+      //add favorites to db
+      await FavoritesService.addNewFavorite(
+        req.app.get('db'),
+        newFavorite
+      )
         .then(favorite => {
-            res
-                .status(201)
-                .location(path.posix.join(req.originalUrl, `/${favorite.id}`))
-                .json(favorite)
+          return res
+            .status(201)
+            .location(path.posix.join(req.originalUrl, `/${favorite.id}`))
+            .json(favorite);
         })
-        .catch(next)
-    })
+        .catch(next);
+    }
+    catch(e){
+      next();
+    }
+   
+  });
     
     
 favoritesRouter
-    .route('/:parkId')
-    .all(requireAuth)
-    .delete((req, res, next) =>{
-        
-    FavoritesService.removeFavorite(
+  .route('/:parkId')
+  .all(requireAuth)
+  
+  //delete favorites from user list
+  .delete(async (req, res, next) =>{
+    
+    try{
+      await FavoritesService.removeFavorite(
         req.app.get('db'),
         req.params.parkId
-    )
-    .then(numRowsAffected =>{
-        res.status(204).end()
-    })
-    .catch(next)
-    })
+      );
+      
+      return res.status(204).end();
+    }
+    catch(e){
+      next();
+    }
+  });
 
     
     
   
 
-module.exports = favoritesRouter
+module.exports = favoritesRouter;
